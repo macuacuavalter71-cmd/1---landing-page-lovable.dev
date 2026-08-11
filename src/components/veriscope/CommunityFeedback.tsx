@@ -210,7 +210,7 @@ export function CommunityFeedback() {
         handle: post.handle,
         body: post.body,
         likes: post.likes,
-        ageSeconds: Math.max(MIN_AGE_SECONDS, Math.floor((now - post.createdAt) / 1000)),
+        ageSeconds: Math.max(0, Math.floor((now - post.createdAt) / 1000)),
         avatarUrl: post.avatarUrl,
       }))
       .filter((post) => post.ageSeconds <= MAX_AGE_SECONDS);
