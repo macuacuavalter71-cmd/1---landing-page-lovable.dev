@@ -375,10 +375,13 @@ function buildBody(rnd: () => number, persona: readonly string[]) {
  */
 export function commentAgeSeconds(index: number) {
   const span = Math.max(1, TOTAL_COMMENTS - 1);
-  const t = Math.min(1, Math.max(0, index / span));
   const min = 7 * 60;
   const max = 24 * 60 * 60;
-  return Math.round(min * Math.exp(Math.log(max / min) * t));
+  const i = Math.min(span, Math.max(0, index));
+  // log-cubic ramp: the first visible pages advance minute by minute,
+  // the long tail stretches out to the 24h edge.
+  const t = Math.pow(Math.log1p(i) / Math.log1p(span), 3);
+  return Math.round(min + (max - min) * t);
 }
 
 /**
