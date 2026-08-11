@@ -14,7 +14,92 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      comment_likes: {
+        Row: {
+          comment_id: string
+          created_at: string
+          id: string
+          visitor_id: string
+        }
+        Insert: {
+          comment_id: string
+          created_at?: string
+          id?: string
+          visitor_id: string
+        }
+        Update: {
+          comment_id?: string
+          created_at?: string
+          id?: string
+          visitor_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "comment_likes_comment_id_fkey"
+            columns: ["comment_id"]
+            isOneToOne: false
+            referencedRelation: "post_comments"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      post_comments: {
+        Row: {
+          author_name: string
+          avatar_url: string | null
+          body: string
+          created_at: string
+          handle: string | null
+          id: string
+          likes_count: number
+          post_slug: string
+          status: string
+        }
+        Insert: {
+          author_name: string
+          avatar_url?: string | null
+          body: string
+          created_at?: string
+          handle?: string | null
+          id?: string
+          likes_count?: number
+          post_slug: string
+          status?: string
+        }
+        Update: {
+          author_name?: string
+          avatar_url?: string | null
+          body?: string
+          created_at?: string
+          handle?: string | null
+          id?: string
+          likes_count?: number
+          post_slug?: string
+          status?: string
+        }
+        Relationships: []
+      }
+      post_likes: {
+        Row: {
+          created_at: string
+          id: string
+          post_slug: string
+          visitor_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          post_slug: string
+          visitor_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          post_slug?: string
+          visitor_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
