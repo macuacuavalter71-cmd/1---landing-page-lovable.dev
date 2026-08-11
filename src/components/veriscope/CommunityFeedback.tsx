@@ -462,7 +462,7 @@ export function CommunityFeedback() {
                             {item.handle}
                           </span>
                           <span className="font-mono text-[11px] text-muted-foreground/70">
-                            · {relativeLabel(item.ageSeconds)}
+                            · {item.realId ? exactLabel(item.ageSeconds) : relativeLabel(item.ageSeconds)}
                           </span>
                         </div>
                         <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
