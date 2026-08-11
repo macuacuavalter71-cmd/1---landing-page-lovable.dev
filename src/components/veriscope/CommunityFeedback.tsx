@@ -3,7 +3,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { Reveal } from "./Reveal";
 import { Diamond } from "./Diamond";
 import { getCommentPage, TOTAL_COMMENTS, type DemoComment } from "@/data/community-comments";
-import { MAX_AGE_SECONDS, MIN_AGE_SECONDS, relativeLabel, timeBucket } from "@/lib/relative-time";
+import { MAX_AGE_SECONDS, exactLabel, relativeLabel, timeBucket } from "@/lib/relative-time";
 
 const POST_SLUG = "veriscope-session-matrix";
 const VISITOR_STORAGE_KEY = "veriscope:visitor-id";
@@ -210,7 +210,7 @@ export function CommunityFeedback() {
         handle: post.handle,
         body: post.body,
         likes: post.likes,
-        ageSeconds: Math.max(MIN_AGE_SECONDS, Math.floor((now - post.createdAt) / 1000)),
+        ageSeconds: Math.max(0, Math.floor((now - post.createdAt) / 1000)),
         avatarUrl: post.avatarUrl,
       }))
       .filter((post) => post.ageSeconds <= MAX_AGE_SECONDS);
@@ -462,7 +462,7 @@ export function CommunityFeedback() {
                             {item.handle}
                           </span>
                           <span className="font-mono text-[11px] text-muted-foreground/70">
-                            · {relativeLabel(item.ageSeconds)}
+                            · {item.realId ? exactLabel(item.ageSeconds) : relativeLabel(item.ageSeconds)}
                           </span>
                         </div>
                         <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
