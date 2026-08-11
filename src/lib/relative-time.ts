@@ -12,6 +12,14 @@ export function relativeLabel(ageSeconds: number) {
   return `${Math.floor(age / 3600)}h atrás`;
 }
 
+/** Exact label for real user posts: 1s, 45s, 1min, 5min, 3h. */
+export function exactLabel(ageSeconds: number) {
+  const age = Math.max(0, Math.min(MAX_AGE_SECONDS, Math.floor(ageSeconds)));
+  if (age < 60) return `${Math.max(1, age)}s atrás`;
+  if (age < 3600) return `${Math.floor(age / 60)}min atrás`;
+  return `${Math.floor(age / 3600)}h atrás`;
+}
+
 /** Section bucket used to group the feed chronologically. */
 export function timeBucket(ageSeconds: number) {
   const age = Math.max(MIN_AGE_SECONDS, Math.min(MAX_AGE_SECONDS, ageSeconds));
