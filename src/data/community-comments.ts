@@ -17,7 +17,7 @@ export type DemoComment = {
   handle: string;
   body: string;
   likes: number;
-  /** Age in seconds at page load — always inside the 24h window. */
+  /** Age in seconds at page load — entre 7 minutos e 24 horas. */
   ageSeconds: number;
 };
 
@@ -369,14 +369,16 @@ function buildBody(rnd: () => number, persona: readonly string[]) {
 
 /**
  * Age of comment #index, in seconds, at load time.
- * Index 0 is the newest (~1s) and the last index sits exactly on the 24h edge,
- * spread exponentially so the top of the feed moves in seconds and the tail in
- * hours. Monotonic, so the feed is strictly chronological.
+ * Index 0 is the newest (7 min) and the last index sits exactly on the 24h
+ * edge, spread exponentially so the top of the feed moves in minutes and the
+ * tail in hours. Monotonic, so the feed is strictly chronological.
  */
 export function commentAgeSeconds(index: number) {
   const span = Math.max(1, TOTAL_COMMENTS - 1);
   const t = Math.min(1, Math.max(0, index / span));
-  return Math.max(1, Math.round(Math.exp(Math.log(24 * 60 * 60) * t)));
+  const min = 7 * 60;
+  const max = 24 * 60 * 60;
+  return Math.round(min * Math.exp(Math.log(max / min) * t));
 }
 
 /**
